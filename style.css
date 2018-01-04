@@ -9,7 +9,7 @@
 }
 
 .wrapper {
-    background: linear-gradient(77deg, var(--main-black), var(--tertiary-black));
+    background: linear-gradient(77deg, var(--main-black), var(--secondary-black));
     width: 336px;
     height: 600px;
     display: grid;
@@ -19,6 +19,7 @@
     color: var(--main-text);
     font-family: 'Lato';
     box-shadow: 1px 1px 15px 1px rgba(0,0,0,0.6);
+    overflow: hidden;
 }
 
 /* #region  history area */
@@ -81,6 +82,12 @@ button:hover {
 /* #region  drawer area */
 .drawer-area {
     background-color: var(--main-blue);
+    transition: 0.3s ease;
+}
+.drawer-area:hover {
+    cursor: pointer;
+    opacity: 0.9;
+    transition: 0.3s ease;
 }
 /* #endregion */
 

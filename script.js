@@ -110,6 +110,37 @@ $(document).ready(function() {
     });
     //#endregion
 
+    //#region handle key presses
+    $(window).keyup(function(e) {
+        switch(e.keyCode) {
+            case 48: $(".zero").click(); break;
+            case 49: $(".one").click(); break;
+            case 50: $(".two").click(); break;
+            case 51: $(".three").click(); break;
+            case 52: $(".four").click(); break;
+            case 53: $(".five").click(); break;
+            case 54: $(".six").click(); break;
+            case 55: $(".seven").click(); break;
+            case 56: 
+                if(e.shiftKey===true) {
+                    $(".multiply-button").click();
+                } else {
+                    $(".eight").click();
+                } break;
+            case 57: $(".nine").click(); break;
+            case 187:
+                if(e.shiftKey===true) {
+                    $(".add-button").click();
+                } else {
+                    $(".equals-button").click();
+                } break;
+            case 189: $(".subtract-button").click(); break;
+            case 191: $(".divide-button").click(); break;
+            case 13: $(".equals-button").click(); break;
+            default: console.log(e.keyCode+" what went wrong?");
+        }
+    });
+    //#endregion
 });
 
 function updateTypingDisplay() {
