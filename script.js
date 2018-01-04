@@ -4,6 +4,7 @@ var decimalRegex = /([\×\+\-\÷]\w*)$/; //if this is true, allow decimal
 var decimalRegex2 = /^\w*[.]/; //if this is false, allow decimal
 //lets input functions know to concat their inputs on to what is now the answer
 var clearWithNextButton = false;
+var operators = ['×','÷','+','-'];
 var operatorsMap = new Map([['×','*'],['÷','/']]);
 
 $(document).ready(function() {
@@ -100,7 +101,13 @@ $(document).ready(function() {
                 parsedInput = parsedInput.slice(0,-1);
             }
             //evaluate expressino using eval (might change this later..)
-            var currentAnswer = (Math.round(eval(parsedInput)*100000)/100000);
+            var currentAnswer;  
+            try {
+                currentAnswer = (Math.round(eval(parsedInput)*100000)/100000);
+            } catch(exception) {
+                console.log(exception);
+                currentAnswer = "Error";
+            }
             if(/e/.test(currentAnswer)) {
                 currentAnswer = currentAnswer.toPrecision(7);
             }
@@ -154,6 +161,67 @@ $(document).ready(function() {
         }
     });
 
+    //#region scientific buttons
+    $(".fact-button").click(function() {
+        //not an operator but..
+        inputOperator("!");
+    });
+    $(".exp-button").click(function() {
+        inputOperator("^");
+    });
+    $(".sqrt-button").click(function() {
+        inputFunc("√");
+    });
+    $(".pi-button").click(function() {
+        inputNumber("π");
+    });
+    $(".sin-button").click(function() {
+        inputFunc("sin");
+    });
+    $(".cos-button").click(function() {
+        inputFunc("cos");
+    });
+    $(".tan-button").click(function() {
+        inputFunc("tan");
+    });
+    $(".asin-button").click(function() {
+        inputFunc("asin");
+    });
+    $(".acos-button").click(function() {
+        inputFunc("acos");
+    });
+    $(".atan-button").click(function() {
+        inputFunc("atan");
+    });
+    $(".ln-button").click(function() {
+        inputFunc("ln"); //Math.log is log_e
+    });
+    $(".e-button").click(function() {
+        inputNumber("e");
+    });
+    $(".mod-button").click(function() {
+        inputFunc("mod");
+    });
+    $(".log-button").click(function() {
+        inputFunc("log"); //Math.log10 is log_10
+    });
+    $(".floor-button").click(function() {
+        inputFunc("floor");
+    });
+    $(".ceil-button").click(function() {
+        inputFunc("ceil");
+    });
+    $(".abs-button").click(function() {
+        inputFunc("abs");
+    });
+    $(".lp-button").click(function() {
+        inputNumber("(");
+    });
+    $(".rp-button").click(function() {
+        inputNumber(")");
+    });
+    //#endregion
+
     //#endregion
 });
 
@@ -169,12 +237,22 @@ function inputOperator(operator) {
     if(currentInput==""&&operator!="-") {
         return;
     }
-    if(!isNaN(currentInput[currentInput.length-1]) || currentInput[currentInput.length-1]==".") {
+    if(!isOperator(currentInput[currentInput.length-1])) {
+        // !isNaN(currentInput[currentInput.length-1]) || currentInput[currentInput.length-1]=="."
         currentInput+=operator;
     } else {
         currentInput=currentInput.slice(0,-1);
         currentInput+=operator;
     }
+    updateTypingDisplay();
+}
+
+function inputFunc(func) {
+    if(clearWithNextButton) {
+        currentInput="";
+        clearWithNextButton=false;
+    }
+    currentInput+=func+"(";
     updateTypingDisplay();
 }
 
@@ -185,4 +263,8 @@ function inputNumber(number) {
     }
     currentInput+=number;
     updateTypingDisplay();
+}
+
+function isOperator(operator) {
+    return operators.includes(operator);
 }
