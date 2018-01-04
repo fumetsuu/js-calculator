@@ -1,6 +1,7 @@
 var typingDisplay, answerDisplay;
 var currentInput = "";
-var decimalAllowed = true;
+var decimalRegex = /([\×\+\-\÷]\w*)$/; //if this is true, allow decimal
+var decimalRegex2 = /^\w*[.]/; //if this is false, allow decimal
 //lets input functions know to concat their inputs on to what is now the answer
 var clearWithNextButton = false;
 var operatorsMap = new Map([['×','*'],['÷','/']]);
@@ -47,6 +48,8 @@ $(document).ready(function() {
     //#region C and DEL
     $(".clear-button").click(function() {
         currentInput="";
+        $(answerDisplay).text("");
+        clearWithNextButton=false;
         updateTypingDisplay();
     });
     $(".back-button").click(function() {
@@ -69,12 +72,14 @@ $(document).ready(function() {
         inputOperator("-");
     });
     $(".decimal-button").click(function() {
-        //should (couldve)? used regex
-        if(decimalAllowed) {
-            currentInput+=".";
-            updateTypingDisplay();
-            decimalAllowed = false;
+        if(clearWithNextButton) {
+            currentInput="";
+            clearWithNextButton=false;
         }
+        if(currentInput=="" || decimalRegex.test(currentInput) || !decimalRegex2.test(currentInput)) {
+            currentInput+=".";
+        }
+        updateTypingDisplay();
     });
     //#endregion
 
@@ -125,7 +130,6 @@ function inputOperator(operator) {
         currentInput=currentInput.slice(0,-1);
         currentInput+=operator;
     }
-    decimalAllowed=true;
     updateTypingDisplay();
 }
 
