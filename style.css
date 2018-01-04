@@ -93,17 +93,15 @@ button {
     width: 100%;
     grid-row: 3;
     top: 420px;
-    transition: top 0.8s ease;
+    transition: top 0.5s ease;
 }
 .drawer-handle {
     height: 30px;
     background-color: var(--main-blue);
-    transition: 0.3s ease;
 }
 .drawer-handle:hover {
     cursor: pointer;
     opacity: 0.9;
-    transition: 0.3s ease;
 }
 .buttons-area2 {
     background: linear-gradient(77deg, var(--main-blue), var(--secondary-blue));

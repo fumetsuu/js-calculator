@@ -1,11 +1,28 @@
+var SC_LENGTH = 2;
+var typedSequence = "";
 var typingDisplay, answerDisplay;
 var currentInput = "";
 var decimalRegex = /([\×\+\-\÷]\w*)$/; //if this is true, allow decimal
 var decimalRegex2 = /^\w*[.]/; //if this is false, allow decimal
 //lets input functions know to concat their inputs on to what is now the answer
 var clearWithNextButton = false;
-var operators = ['×','÷','+','-'];
-var operatorsMap = new Map([['×','*'],['÷','/']]);
+var operators = ['×','÷','+','-','%'];
+var operatorsMap = new Map([['×','*'],['÷','/'],['ln','log'],['π','pi'],['√','sqrt']]);
+var kbSC = {
+    "sq":".sqrt-button",
+    "pi":".pi-button",
+    "si":".sin-button",
+    "co":".cos-button",
+    "ta":".tan-button",
+    "as":".asin-button",
+    "ac":".acos-button",
+    "at":".atan-button",
+    "ln":".ln-button",
+    "lo":".log-button",
+    "fl":".floor-button",
+    "cl":".ceil-button",
+    "ab":".abs-button"
+};
 
 $(document).ready(function() {
     typingDisplay = document.getElementsByClassName("currently-typing")[0];
@@ -86,28 +103,33 @@ $(document).ready(function() {
 
     //#region equals button
     $(".equals-button").click(function() {
+        //!clearWithNextButton makes it so that the user can't keep pressing equals
         if(!clearWithNextButton && currentInput!="") {
             currentInput+="=";
             updateTypingDisplay();
             var parsedInput = currentInput;
             operatorsMap.forEach(function(v,k) {
+                //replace display symbols with computer arithmetic symbols
                 var regexTest = new RegExp(k,"g");
                 parsedInput = parsedInput.replace(regexTest,v);
             });
+            //log base 10 done separately (requires regex group)
+            if(/log\(.*\)/.test(parsedInput)) {
+                parsedInput = parsedInput.replace(/log\((.*)\)/,'log($1,10)');
+            }
             //remove equals sign
             parsedInput = parsedInput.slice(0,-1);
-            //remove operator if it's at the end
-            if(isNaN(parsedInput[parsedInput.length-1])) {
-                parsedInput = parsedInput.slice(0,-1);
-            }
-            //evaluate expressino using eval (might change this later..)
+            //initialise variable to be displayed
             var currentAnswer;  
+            console.log(parsedInput);
             try {
-                currentAnswer = (Math.round(eval(parsedInput)*100000)/100000);
+                currentAnswer = (math.round(math.eval(parsedInput),6));
             } catch(exception) {
+                //user bad input
                 console.log(exception);
                 currentAnswer = "Error";
             }
+            //math.round doesn't handle large/(small) numbers in exponential form 
             if(/e/.test(currentAnswer)) {
                 currentAnswer = currentAnswer.toPrecision(7);
             }
@@ -120,13 +142,34 @@ $(document).ready(function() {
     //#region handle key presses
     $(window).keyup(function(e) {
         switch(e.keyCode) {
-            case 48: $(".zero").click(); break;
-            case 49: $(".one").click(); break;
+            case 46: $(".back-button").click(); break;
+            case 48: 
+                if(e.shiftKey===true) {
+                    $(".rp-button").click();
+                } else {
+                    $(".zero").click();
+                } break;
+            case 49: 
+                if(e.shiftKey===true) {
+                    $(".fact-button").click();
+                } else {
+                    $(".one").click();
+                } break;
             case 50: $(".two").click(); break;
             case 51: $(".three").click(); break;
             case 52: $(".four").click(); break;
-            case 53: $(".five").click(); break;
-            case 54: $(".six").click(); break;
+            case 53: 
+                if(e.shiftKey===true) {
+                    $(".mod-button").click();
+                } else {
+                    $(".five").click();
+                } break;
+            case 54: 
+                if(e.shiftKey===true) {
+                    $(".exp-button").click();
+                } else {
+                    $(".six").click();
+                } break;
             case 55: $(".seven").click(); break;
             case 56: 
                 if(e.shiftKey===true) {
@@ -134,7 +177,13 @@ $(document).ready(function() {
                 } else {
                     $(".eight").click();
                 } break;
-            case 57: $(".nine").click(); break;
+            case 57: 
+                if(e.shiftKey===true) {
+                    $(".lp-button").click();
+                } else {
+                    $(".nine").click();
+                } break;
+            case 69: $(".e-button").click(); break;
             case 187:
                 if(e.shiftKey===true) {
                     $(".add-button").click();
@@ -142,11 +191,22 @@ $(document).ready(function() {
                     $(".equals-button").click();
                 } break;
             case 189: $(".subtract-button").click(); break;
+            case 190: $(".decimal-button").click(); break;
             case 191: $(".divide-button").click(); break;
             case 13: $(".equals-button").click(); break;
             case 27: $(".clear-button").click(); break;
             case 8: $(".back-button").click(); break;
             default: break;
+        }
+        //keeps track of last two characters typed... works..
+        var justTyped = String.fromCharCode(e.keyCode);
+        typedSequence+=justTyped.toLowerCase();
+        if(typedSequence.length>SC_LENGTH) {
+            typedSequence=typedSequence.slice(1);
+        }
+        console.log(typedSequence);
+        if(kbSC[typedSequence]) {
+            $(kbSC[typedSequence]).click();
         }
     });
     //#endregion
@@ -200,7 +260,7 @@ $(document).ready(function() {
         inputNumber("e");
     });
     $(".mod-button").click(function() {
-        inputFunc("mod");
+        inputOperator("%");
     });
     $(".log-button").click(function() {
         inputFunc("log"); //Math.log10 is log_10
