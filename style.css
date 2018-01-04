@@ -121,8 +121,11 @@ button {
 
 @media (max-width: 350px) {
     .wrapper {
-        width: 260px;
+        width: 250px;
         height: 464px;
         grid-template-rows: 23px 93px 325px 23px;
+    }
+    .drawer-area {
+        grid-template-rows: 23px 325px;
     }
 }

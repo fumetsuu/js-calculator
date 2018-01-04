@@ -137,7 +137,9 @@ $(document).ready(function() {
             case 189: $(".subtract-button").click(); break;
             case 191: $(".divide-button").click(); break;
             case 13: $(".equals-button").click(); break;
-            default: console.log(e.keyCode+" what went wrong?");
+            case 27: $(".clear-button").click(); break;
+            case 8: $(".back-button").click(); break;
+            default: break;
         }
     });
     //#endregion
