@@ -12,10 +12,10 @@
 .wrapper {
     background: linear-gradient(77deg, var(--main-black), var(--secondary-black));
     width: 336px;
-    height: 600px;
+    height: auto;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 30px 120px 420px 30px;
+    grid-template-rows: 30px auto 420px 30px;
     margin: 50px auto;
     color: var(--main-text);
     font-family: 'Lato';
@@ -35,7 +35,7 @@
     background-color: var(--secondary-black);
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 30px 90px;
+    grid-template-rows: 30px minmax(90px,auto);
 }
 .currently-typing {
     justify-self: end;
