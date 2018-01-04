@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+:root {
+    --main-black: #1f232b;
+    --secondary-black: #2f3642;
+    --tertiary-black: #393d44;
+    --main-blue: #70dded;
+    --main-text: #f9f2f4;
+}
+
+.wrapper {
+    background: linear-gradient(77deg, var(--main-black), var(--tertiary-black));
+    width: 336px;
+    height: 600px;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 30px 120px 420px 30px;
+    margin: 50px auto;
+    color: var(--main-text);
+    font-family: 'Lato';
+    box-shadow: 1px 1px 15px 1px rgba(0,0,0,0.6);
+}
+
+/* #region  history area */
+.history-area {
+    background-color: var(--tertiary-black);
+}
+/* #endregion */
+
+/* #region display area */
+.display-area {
+    background-color: var(--secondary-black);
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 30px 90px;
+}
+.currently-typing {
+    justify-self: end;
+    margin: 20px 20px 0 10px;
+}
+.display-answer {
+    justify-self: end;
+    margin: 10px 20px 10px 10px;
+    font-size: 40px;
+}
+/* #endregion */
+
+/* #region buttons area */
+.buttons-area {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
+button {
+    background-color: transparent;
+    color: var(--main-text);
+    border: none;
+    font-family: 'Lato';
+    font-size: 15px;
+    transition: 0.5s;
+    outline: none;
+}
+button:hover {
+    cursor: pointer;
+    background-color: var(--secondary-black);
+    transition: 0.5s;
+}
+.clear-button, .zero {
+    grid-column: 1/3;
+}
+.equals-button {
+    background-color: var(--main-blue);
+}
+
+/* #endregion */
+
+/* #region  drawer area */
+.drawer-area {
+    background-color: var(--main-blue);
+}
+/* #endregion */
