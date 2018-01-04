@@ -113,12 +113,24 @@ $(document).ready(function() {
                 var regexTest = new RegExp(k,"g");
                 parsedInput = parsedInput.replace(regexTest,v);
             });
+            //remove equals sign
+            parsedInput = parsedInput.slice(0,-1);
+            //check for unmatched open brackets and match them
+            var numUnmatchedBrackets;
+            if(/\(/.test(parsedInput) && !(/\)/.test(parsedInput))) {
+                numUnmatchedBrackets = parsedInput.match(/\(/g).length;
+            } else if(/\(/.test(parsedInput) && /\)/.test(parsedInput)) {
+                numUnmatchedBrackets = parsedInput.match(/\(/g).length -parsedInput.match(/\)/g).length;
+            }
+            console.log(numUnmatchedBrackets);
+            for(var u = 0; u < numUnmatchedBrackets; u++) {
+                parsedInput+=")";
+                console.log(parsedInput);
+            }
             //log base 10 done separately (requires regex group)
             if(/log\(.*\)/.test(parsedInput)) {
                 parsedInput = parsedInput.replace(/log\((.*)\)/,'log($1,10)');
             }
-            //remove equals sign
-            parsedInput = parsedInput.slice(0,-1);
             //initialise variable to be displayed
             var currentAnswer;  
             console.log(parsedInput);
