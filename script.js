@@ -319,7 +319,6 @@ function inputOperator(operator) {
         return;
     }
     if(!isOperator(currentInput[currentInput.length-1])) {
-        // !isNaN(currentInput[currentInput.length-1]) || currentInput[currentInput.length-1]=="."
         currentInput+=operator;
     } else {
         currentInput=currentInput.slice(0,-1);
