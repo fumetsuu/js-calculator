@@ -5,6 +5,7 @@
     --secondary-black: #2f3642;
     --tertiary-black: #393d44;
     --main-blue: #70dded;
+    --secondary-blue: #57b2d8;
     --main-text: #f9f2f4;
 }
 
@@ -20,6 +21,7 @@
     font-family: 'Lato';
     box-shadow: 1px 1px 15px 1px rgba(0,0,0,0.6);
     overflow: hidden;
+    position: relative;
 }
 
 /* #region  history area */
@@ -37,18 +39,21 @@
 }
 .currently-typing {
     justify-self: end;
-    margin: 20px 20px 0 10px;
+    margin: 10px 20px 0 10px;
+    overflow: hidden;
 }
 .display-answer {
     justify-self: end;
     margin: 10px 20px 10px 10px;
     font-size: 40px;
+    overflow: hidden;
 }
 /* #endregion */
 
 /* #region buttons area */
 .buttons-area {
     display: grid;
+    grid-row: 3;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(5, 1fr);
 }
@@ -61,7 +66,7 @@ button {
     transition: 0.2s;
     outline: none;
 }
-button:hover {
+.buttons-area > button:hover {
     cursor: pointer;
     background-color: var(--tertiary-black);
     transition: 0.2s;
@@ -73,7 +78,7 @@ button:hover {
     background-color: var(--main-blue);
 }
 .equals-button:hover {
-    background-color: var(--main-blue);
+    background-color: var(--main-blue) !important;
     filter: brightness(1.2);
 }
 
@@ -81,13 +86,36 @@ button:hover {
 
 /* #region  drawer area */
 .drawer-area {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 30px 420px;
+    position: absolute;
+    width: 100%;
+    grid-row: 3;
+    top: 420px;
+    transition: top 0.8s ease;
+}
+.drawer-handle {
+    height: 30px;
     background-color: var(--main-blue);
     transition: 0.3s ease;
 }
-.drawer-area:hover {
+.drawer-handle:hover {
     cursor: pointer;
     opacity: 0.9;
     transition: 0.3s ease;
+}
+.buttons-area2 {
+    background: linear-gradient(77deg, var(--main-blue), var(--secondary-blue));
+    display: grid;
+    grid-row: 2;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
+.buttons-area2 > button:hover {
+    cursor: pointer;
+    background-color: var(--secondary-blue);
+    transition: 0.2s;
 }
 /* #endregion */
 

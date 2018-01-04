@@ -141,6 +141,18 @@ $(document).ready(function() {
         }
     });
     //#endregion
+
+    //#region handle drawer open and buttons
+
+    $(".drawer-handle").click(function() {
+        if($(".drawer-area").css("top")=='420px') {
+            $(".drawer-area").css("top",'0');
+        } else {
+            $(".drawer-area").css("top",'420px');
+        }
+    });
+
+    //#endregion
 });
 
 function updateTypingDisplay() {
