@@ -1,4 +1,5 @@
 var SC_LENGTH = 2;
+var lastANS;
 var typedSequence = "";
 var typingDisplay, answerDisplay;
 var currentInput = "";
@@ -94,7 +95,7 @@ $(document).ready(function() {
             currentInput="";
             clearWithNextButton=false;
         }
-        if(currentInput=="" || decimalRegex.test(currentInput) || !decimalRegex2.test(currentInput)) {
+        if(currentInput=="" || (!/\.(?:.(?!\.))\w*$/.test(currentInput)&&currentInput[currentInput.length-1]!=".")) {
             currentInput+=".";
         }
         updateTypingDisplay();
@@ -146,6 +147,7 @@ $(document).ready(function() {
                 currentAnswer = currentAnswer.toPrecision(7);
             }
             $(answerDisplay).text(currentAnswer);
+            lastANS=currentAnswer;
             clearWithNextButton=true;
         }
     });
@@ -293,6 +295,13 @@ $(document).ready(function() {
         inputNumber(")");
     });
     //#endregion
+
+    //#endregion
+
+    //#region ans button
+    $(".ans-button").click(function() {
+        inputNumber(lastANS);
+    });
 
     //#endregion
 });

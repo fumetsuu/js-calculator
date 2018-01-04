@@ -93,7 +93,7 @@ button {
     width: 100%;
     grid-row: 3;
     top: 420px;
-    transition: top 0.5s ease-in-out;
+    transition: top 0.8s cubic-bezier(.43,.19,.26,.98);
 }
 .drawer-handle {
     height: 30px;
